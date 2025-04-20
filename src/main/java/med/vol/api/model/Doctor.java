@@ -29,7 +29,7 @@ public class Doctor {
 
     private String phone;
 
-    private Double  mra;
+    private String  mra;
     @Enumerated(EnumType.STRING)
     private Specialty specialty;
     @Embedded

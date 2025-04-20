@@ -1,4 +1,15 @@
 package med.vol.api.dto;
 
-public record AdressData(String adress, String postalCode, String city, String province) {
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+public record AdressData(
+        @NotBlank
+        String adress,
+        @NotBlank
+        String postalCode,
+        @NotBlank
+        String city,
+        @NotBlank
+        String province) {
 }
