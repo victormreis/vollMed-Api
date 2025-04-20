@@ -9,13 +9,9 @@ public class DoctorController {
 
 
     @PostMapping
-    public void registerDoctor(@RequestBody DoctorDTO doctor) {
-        System.out.println(doctor);
+    public void registerDoctor(@RequestBody DoctorDTO doctorData) {
+        System.out.println(doctorData.name());
     }
 
 
-    @GetMapping
-    public String test() {
-        return "Test success!";
-    }
 }
