@@ -22,14 +22,13 @@ public class Doctor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull
+
     private String name;
-    @Email
-    @NotNull
+
     private String email;
-    @NotNull
+
     private String phone;
-    @NotNull
+
     private Double  mra;
     @Enumerated(EnumType.STRING)
     private Specialty specialty;
