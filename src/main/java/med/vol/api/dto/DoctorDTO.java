@@ -19,5 +19,5 @@ public record DoctorDTO(
         @NotNull
         Specialty specialty,
         @NotNull
-        AdressData adress) {
+        AddressData address) {
 }

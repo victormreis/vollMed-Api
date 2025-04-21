@@ -1,7 +1,10 @@
 package med.vol.api.service;
 
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.constraints.NotNull;
 import med.vol.api.dto.DoctorDTO;
 import med.vol.api.dto.DoctorListDTO;
+import med.vol.api.dto.DoctorUpdateDTO;
 import med.vol.api.model.Doctor;
 import med.vol.api.repository.DoctorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,4 +42,12 @@ public class DoctorService {
                 .map(DoctorListDTO::new);
 
     }
+
+    public Doctor updateDoctor(DoctorUpdateDTO doctor) {
+        return doctorRepository.findById(doctor.id()).map(d -> {
+            d.updateDoctor(doctor);
+            return d;
+        }).orElseThrow(() -> new EntityNotFoundException("Doctor with ID " + doctor.id() + " Not Found"));
+    }
+
 }

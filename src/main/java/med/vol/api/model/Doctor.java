@@ -2,14 +2,12 @@ package med.vol.api.model;
 
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import med.vol.api.dto.AdressData;
 import med.vol.api.dto.DoctorDTO;
+import med.vol.api.dto.DoctorUpdateDTO;
 import med.vol.api.types.Specialty;
 
 @Entity(name = "Doctor")
@@ -33,7 +31,7 @@ public class Doctor {
     @Enumerated(EnumType.STRING)
     private Specialty specialty;
     @Embedded
-    private Adress adress;
+    private Adress address;
 
     public Doctor(DoctorDTO data) {
         this.name = data.name();
@@ -41,6 +39,18 @@ public class Doctor {
         this.phone = data.phone();
         this.mra = data.mra();
         this.specialty = data.specialty();
-        this.adress = new Adress(data.adress());
+        this.address = new Adress(data.address());
+    }
+
+    public void updateDoctor(DoctorUpdateDTO updatedData) {
+        if(updatedData.name() != null) {
+            this.name = updatedData.name();
+        }
+        if(updatedData.phone() != null) {
+            this.phone = updatedData.phone();
+        }
+        if(updatedData.address() != null) {
+            this.address.updateAddress(updatedData.address());
+        }
     }
 }

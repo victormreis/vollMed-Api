@@ -1,11 +1,10 @@
 package med.vol.api.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
-public record AdressData(
+public record AddressData(
         @NotBlank
-        String adress,
+        String address,
         @NotBlank
         String postalCode,
         @NotBlank
