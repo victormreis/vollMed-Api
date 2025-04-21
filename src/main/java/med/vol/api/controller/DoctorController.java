@@ -5,15 +5,12 @@ import jakarta.validation.Valid;
 import med.vol.api.dto.DoctorDTO;
 import med.vol.api.dto.DoctorListDTO;
 import med.vol.api.dto.DoctorUpdateDTO;
-import med.vol.api.model.Doctor;
 import med.vol.api.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/doctors")
