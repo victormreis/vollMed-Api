@@ -38,7 +38,7 @@ public class DoctorService {
                 page.getPageNumber(),
                 safeSize,
                 page.getSort());
-        return doctorRepository.findAll(safePageable)
+        return doctorRepository.findAllByActiveTrue(safePageable)
                 .map(DoctorListDTO::new);
 
     }
@@ -50,4 +50,9 @@ public class DoctorService {
         }).orElseThrow(() -> new EntityNotFoundException("Doctor with ID " + doctor.id() + " Not Found"));
     }
 
+    public void deleteDoctor(Long id) {
+        var doctor = doctorRepository.getReferenceById(id);
+        doctor.deleteDoctor();
+
+    }
 }
