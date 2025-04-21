@@ -29,7 +29,7 @@ public class DoctorService {
 //        Pageable sortedPage = PageRequest.of(page.getPageNumber(), page.getPageSize(), Sort.by("name"));
 //        The next block before the return is used to override the pageable and limit maximum request from frontend
 //        to the maxPageSize
-        int maxPageSize = 7;
+        int maxPageSize = 20;
         int safeSize = Math.min(page.getPageSize(), maxPageSize);
         Pageable safePageable = PageRequest.of(
                 page.getPageNumber(),
