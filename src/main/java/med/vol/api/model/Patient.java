@@ -1,13 +1,15 @@
 package med.vol.api.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import med.vol.api.dto.PatientDTO;
 
 @Entity(name = "patient")
-@Table(name = "patients")
+@Table(name = "patient")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,4 +26,10 @@ public class Patient {
     private Adress addrees;
 
 
+    public Patient(@Valid PatientDTO patient) {
+        this.name = patient.name();
+        this.phone = patient.phone();
+        this.healthNumber = patient.healthNumber();
+        this.addrees = new Adress(patient.addrees());
+    }
 }
