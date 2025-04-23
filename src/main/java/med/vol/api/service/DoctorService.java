@@ -1,8 +1,6 @@
 package med.vol.api.service;
 
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.constraints.NotNull;
-import med.vol.api.dto.DoctorDTO;
 import med.vol.api.dto.DoctorListDTO;
 import med.vol.api.dto.DoctorUpdateDTO;
 import med.vol.api.model.Doctor;
@@ -11,12 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 public class DoctorService {
@@ -24,8 +19,8 @@ public class DoctorService {
     @Autowired
     DoctorRepository doctorRepository;
 
-    public void registerDoctor(DoctorDTO data) {
-        doctorRepository.save(new Doctor(data));
+    public void registerDoctor(Doctor doctor) {
+        doctorRepository.save(doctor);
     }
 
     public Page<DoctorListDTO> getDoctorsPageable(Pageable page) {
@@ -54,5 +49,9 @@ public class DoctorService {
         var doctor = doctorRepository.getReferenceById(id);
         doctor.deleteDoctor();
 
+    }
+
+    public Doctor getDoctorDetails(Long id) {
+        return doctorRepository.getReferenceById(id);
     }
 }
