@@ -7,6 +7,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import med.vol.api.dto.PatientDTO;
+import med.vol.api.dto.PatientDetailsDTO;
+import med.vol.api.dto.PatientUpdateDTO;
 
 @Entity(name = "patient")
 @Table(name = "patient")
@@ -31,5 +33,15 @@ public class Patient {
         this.phone = patient.phone();
         this.healthNumber = patient.healthNumber();
         this.addrees = new Adress(patient.addrees());
+    }
+
+    public void updatePatient(PatientUpdateDTO patientUpdate) {
+        if(patientUpdate.name() != null) {
+            this.name = patientUpdate.name();
+        }
+
+        if(patientUpdate.address() != null){
+            this.addrees = patientUpdate.address();
+        }
     }
 }

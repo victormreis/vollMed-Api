@@ -1,6 +1,9 @@
 package med.vol.api.service;
 
+import jakarta.persistence.EntityNotFoundException;
+import med.vol.api.dto.PatientDetailsDTO;
 import med.vol.api.dto.PatientListDTO;
+import med.vol.api.dto.PatientUpdateDTO;
 import med.vol.api.model.Patient;
 import med.vol.api.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,4 +30,18 @@ public class PatientService {
 
         return patientRepository.findAll(safePageable).map(PatientListDTO::new);
     }
+
+    public Patient updatePatient(PatientUpdateDTO patientUpdate) {
+
+        return patientRepository.findById(patientUpdate.id()).map(d -> {
+            d.updatePatient(patientUpdate);
+            return d;
+        }).orElseThrow(() -> new EntityNotFoundException("Doctor with ID " + patientUpdate.id() + " Not Found"));
+    }
+
+
+    public Patient getPatientById(Long id) {
+        return patientRepository.getReferenceById(id);
+    }
 }
+
