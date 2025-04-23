@@ -26,6 +26,7 @@ public class Patient {
     private String healthNumber;
     @Embedded
     private Adress addrees;
+    private Boolean active;
 
 
     public Patient(@Valid PatientDTO patient) {
@@ -33,6 +34,7 @@ public class Patient {
         this.phone = patient.phone();
         this.healthNumber = patient.healthNumber();
         this.addrees = new Adress(patient.addrees());
+        this.active = true;
     }
 
     public void updatePatient(PatientUpdateDTO patientUpdate) {
@@ -43,5 +45,9 @@ public class Patient {
         if(patientUpdate.address() != null){
             this.addrees = patientUpdate.address();
         }
+    }
+
+    public void deletePatient() {
+        this.active = false;
     }
 }

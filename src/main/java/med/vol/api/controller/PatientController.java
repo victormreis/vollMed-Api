@@ -2,7 +2,10 @@ package med.vol.api.controller;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import med.vol.api.dto.*;
+import med.vol.api.dto.PatientDTO;
+import med.vol.api.dto.PatientDetailsDTO;
+import med.vol.api.dto.PatientListDTO;
+import med.vol.api.dto.PatientUpdateDTO;
 import med.vol.api.model.Patient;
 import med.vol.api.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +15,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/patients")
@@ -56,5 +57,13 @@ public class PatientController {
 
 
         return ResponseEntity.ok(new PatientDetailsDTO(patientUpdated));
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity deletePatient(@PathVariable Long id) {
+        patientService.deletePatientById(id);
+
+        return ResponseEntity.noContent().build();
     }
 }

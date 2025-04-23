@@ -1,7 +1,6 @@
 package med.vol.api.service;
 
 import jakarta.persistence.EntityNotFoundException;
-import med.vol.api.dto.PatientDetailsDTO;
 import med.vol.api.dto.PatientListDTO;
 import med.vol.api.dto.PatientUpdateDTO;
 import med.vol.api.model.Patient;
@@ -28,7 +27,7 @@ public class PatientService {
         int safeSize = Math.min(page.getPageSize(), maxPageSize);
         Pageable safePageable = PageRequest.of(page.getPageNumber(),safeSize, page.getSort());
 
-        return patientRepository.findAll(safePageable).map(PatientListDTO::new);
+        return patientRepository.findAllByActiveTrue(safePageable).map(PatientListDTO::new);
     }
 
     public Patient updatePatient(PatientUpdateDTO patientUpdate) {
@@ -42,6 +41,12 @@ public class PatientService {
 
     public Patient getPatientById(Long id) {
         return patientRepository.getReferenceById(id);
+    }
+
+    public void deletePatientById(Long id) {
+        var patient = patientRepository.getReferenceById(id);
+
+        patient.deletePatient();
     }
 }
 
