@@ -3,9 +3,13 @@ package med.vol.api.config.security;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import jakarta.validation.Valid;
+import med.vol.api.dto.UserLoginDTO;
 import med.vol.api.model.User;
+import med.vol.api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -15,6 +19,13 @@ import java.util.Date;
 
 @Service
 public class TokenService {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UserRepository userRepository;
+
 
     @Value("${api.security.token.secret}")
     private String secret;
@@ -37,4 +48,9 @@ public class TokenService {
     }
 
 
+    public User registerUser(@Valid UserLoginDTO user) {
+        var passwordEncoded = passwordEncoder.encode(user.password());
+
+        return userRepository.save(new User(user.login(), passwordEncoded));
+    }
 }
