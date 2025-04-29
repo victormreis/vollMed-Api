@@ -1,8 +1,10 @@
 package med.vol.api.config.security;
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import jakarta.validation.Valid;
 import med.vol.api.dto.UserLoginDTO;
 import med.vol.api.model.User;
@@ -40,6 +42,22 @@ public class TokenService {
                     .sign(algorithm);
         } catch (JWTCreationException exception){
             throw new RuntimeException("error generating token jwt", exception);
+        }
+    }
+
+    public String getSubject(String tokenJWT) {
+
+
+        try {
+            var algorithm = Algorithm.HMAC256(secret);
+            return JWT.require(algorithm)
+                    .withIssuer("API Voll.med")
+                    .build()
+                    .verify(tokenJWT)
+                    .getSubject();
+
+        } catch (JWTVerificationException exception) {
+            throw new RuntimeException("Invalid or expired token");
         }
     }
 
