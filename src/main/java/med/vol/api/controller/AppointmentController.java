@@ -22,7 +22,7 @@ public class AppointmentController {
     @PostMapping
     @Transactional
     public ResponseEntity book(@RequestBody @Valid BookAppointmentsDTO appointmentDetails ) {
-        appointmentService.bookAppointment(appointmentDetails);
-        return ResponseEntity.ok(new AppointmentsDetailsDTO(null, null, null, null));
+        var appointment = appointmentService.bookAppointment(appointmentDetails);
+        return ResponseEntity.ok(appointment);
     }
 }

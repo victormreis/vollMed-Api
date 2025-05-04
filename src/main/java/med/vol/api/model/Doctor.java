@@ -2,10 +2,7 @@ package med.vol.api.model;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import med.vol.api.dto.DoctorDTO;
 import med.vol.api.dto.DoctorUpdateDTO;
 import med.vol.api.types.Specialty;
@@ -16,6 +13,7 @@ import med.vol.api.types.Specialty;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
+@ToString
 public class Doctor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

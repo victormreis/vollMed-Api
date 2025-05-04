@@ -12,7 +12,7 @@ public record BookAppointmentsDTO(
         Long patientID,
         @NotNull
         @Future
-        LocalDateTime date,
+        LocalDateTime dateAndTime,
 
         Specialty specialty
 ) {

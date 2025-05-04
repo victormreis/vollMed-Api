@@ -24,7 +24,7 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 //                   d.id not in(
 //                        select a.doctor.id from Appointment a
 //                        where
-//                        a.dateAndTime = :date
+//                        a.dateAndTime = :dateAndTime
 //                   )
 //                   order by rand()
 //                   limit 1
@@ -37,5 +37,13 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
             AND id >= (SELECT FLOOR(RAND() * (SELECT MAX(id) FROM doctors WHERE active = true AND specialty = :specialty))) 
             LIMIT 1
             """, nativeQuery = true)
-    Doctor getRandomDoctor(Specialty specialty, LocalDateTime date);
+    Doctor getRandomDoctor(String specialty, LocalDateTime date);
+
+@Query("""
+        SELECT d.active 
+        FROM Doctor d
+        WHERE 
+        d.id = :id      
+        """)
+    Boolean findActiveById(Long id);
 }

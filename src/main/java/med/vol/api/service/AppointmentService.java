@@ -2,17 +2,22 @@ package med.vol.api.service;
 
 import jakarta.validation.ValidationException;
 import med.vol.api.config.errorHandling.VallidationException;
+import med.vol.api.dto.AppointmentsDetailsDTO;
 import med.vol.api.dto.BookAppointmentsDTO;
 import med.vol.api.model.Appointment;
 import med.vol.api.model.Doctor;
 import med.vol.api.repository.AppointmentRepository;
 import med.vol.api.repository.DoctorRepository;
 import med.vol.api.repository.PatientRepository;
+import med.vol.api.validation.BookAppointmentValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AppointmentService {
+
 
     @Autowired
     private AppointmentRepository appointmentRepository;
@@ -23,7 +28,11 @@ public class AppointmentService {
     @Autowired
     private PatientRepository patientRepository;
 
-        public void bookAppointment(BookAppointmentsDTO appointmentDetails) {
+    @Autowired
+    private List<BookAppointmentValidator> validators;
+
+
+        public AppointmentsDetailsDTO bookAppointment(BookAppointmentsDTO appointmentDetails) {
             if(!patientRepository.existsById(appointmentDetails.patientID())){
                 throw new VallidationException("Patient ID invalid");
             }
@@ -32,12 +41,18 @@ public class AppointmentService {
                 throw new VallidationException("Doctor ID invalid");
             }
 
+            validators.forEach(validator -> validator.validate(appointmentDetails));
+
 
             var patient = patientRepository.getReferenceById(appointmentDetails.patientID());
-            Doctor doctor = chooseDoctor(appointmentDetails);
-            var appointment = new Appointment(null,doctor, patient, appointmentDetails.date());
+            var doctor = chooseDoctor(appointmentDetails);
 
-//            appointmentRepository.save(appointment);
+            var appointment = new Appointment(null,doctor, patient, appointmentDetails.dateAndTime());
+
+
+            appointmentRepository.save(appointment);
+
+            return new AppointmentsDetailsDTO(appointment);
         }
 
     private Doctor chooseDoctor(BookAppointmentsDTO appointmentDetails) {
@@ -49,6 +64,10 @@ public class AppointmentService {
             throw new ValidationException("Specialty is required when doctor is not selected!");
         }
 
-        return doctorRepository.getRandomDoctor(appointmentDetails.specialty(), appointmentDetails.date());
+        String specialty = appointmentDetails.specialty().name();
+
+        var doctor = doctorRepository.getRandomDoctor(specialty, appointmentDetails.dateAndTime());
+
+        return doctor;
     }
 }
