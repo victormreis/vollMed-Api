@@ -28,5 +28,6 @@ public class Appointment {
     @JoinColumn(name = "patient_id")
     private Patient patient;
 
-    private LocalDateTime dateAndTime;
+    private LocalDateTime appointmentDateTime;
+
 }

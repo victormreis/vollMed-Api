@@ -2,10 +2,7 @@ package med.vol.api.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import med.vol.api.dto.PatientDTO;
 import med.vol.api.dto.PatientDetailsDTO;
 import med.vol.api.dto.PatientUpdateDTO;
@@ -15,6 +12,7 @@ import med.vol.api.dto.PatientUpdateDTO;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @EqualsAndHashCode(of = "id")
 public class Patient {
     @Id
