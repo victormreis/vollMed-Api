@@ -16,7 +16,7 @@ public class ConflictAppointmentValidation implements BookAppointmentValidator {
         var isDoctorAvailableForThisTime = appointmentRepository.existsByDoctorIdAndAppointmentDateTime(data.doctorID(),
                 data.dateAndTime());
 
-        if(!isDoctorAvailableForThisTime) {
+        if(isDoctorAvailableForThisTime) {
             throw new AppointmentValidationEx("Doctor Unavailable for this date and time!");
         }
     }
