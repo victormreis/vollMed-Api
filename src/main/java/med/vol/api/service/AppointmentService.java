@@ -66,8 +66,6 @@ public class AppointmentService {
 
         String specialty = appointmentDetails.specialty().name();
 
-        var doctor = doctorRepository.getRandomDoctor(specialty, appointmentDetails.dateAndTime());
-
-        return doctor;
+        return doctorRepository.getRandomDoctor(specialty, appointmentDetails.dateAndTime());
     }
 }
