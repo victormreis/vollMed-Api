@@ -1,6 +1,6 @@
 package med.vol.api.validation;
 
-import jakarta.validation.ValidationException;
+import med.vol.api.config.errorHandling.AppointmentValidationEx;
 import med.vol.api.dto.BookAppointmentsDTO;
 import med.vol.api.repository.AppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class UniqueAppoitmentValidation implements BookAppointmentValidator {
                 startHour, endHour);
 
         if(patientHasAnotherAppointment) {
-            throw new ValidationException("Patient cannot more than one appointment for the same day");
+            throw new AppointmentValidationEx("Patient cannot more than one appointment for the same day");
         }
 
     }

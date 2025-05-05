@@ -23,6 +23,12 @@ public class ErrorHandling {
         return ResponseEntity.badRequest().body(errors.stream().map(FieldsErrorValidation::new).toList());
     }
 
+    @ExceptionHandler(AppointmentValidationEx.class)
+    public ResponseEntity serviceErrorHandler(AppointmentValidationEx ex){
+
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
     public ResponseEntity duplicatedData(SQLIntegrityConstraintViolationException err){
 

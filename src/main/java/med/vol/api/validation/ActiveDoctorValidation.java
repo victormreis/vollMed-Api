@@ -1,6 +1,6 @@
 package med.vol.api.validation;
 
-import jakarta.validation.ValidationException;
+import med.vol.api.config.errorHandling.AppointmentValidationEx;
 import med.vol.api.dto.BookAppointmentsDTO;
 import med.vol.api.repository.DoctorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,7 @@ public class ActiveDoctorValidation implements BookAppointmentValidator {
     @Autowired
     private DoctorRepository doctorRepository;
 
-    public void validate(BookAppointmentsDTO data) {
+    public void validate (BookAppointmentsDTO data) {
 
         if(data.doctorID() == null) {
             return;
@@ -20,8 +20,8 @@ public class ActiveDoctorValidation implements BookAppointmentValidator {
 
         var doctor = doctorRepository.findActiveById(data.doctorID());
 
-        if(!doctor) {
-            throw new ValidationException("Appointments cannot be booked with inactive doctors!");
+        if(doctor == 0) {
+            throw new AppointmentValidationEx("Appointments cannot be booked with inactive doctors!");
         }
     }
 }

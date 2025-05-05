@@ -1,6 +1,7 @@
 package med.vol.api.validation;
 
-import jakarta.validation.ValidationException;
+import lombok.Getter;
+import med.vol.api.config.errorHandling.AppointmentValidationEx;
 import med.vol.api.dto.BookAppointmentsDTO;
 import med.vol.api.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ public class ActivePatientValidation implements BookAppointmentValidator {
         var isPatientActive = patientRepository.findByActiveId(data.patientID());
 
         if (!isPatientActive) {
-            throw new ValidationException("Pattient must be active to book an appointment");
+            throw new AppointmentValidationEx("Pattient must be active to book an appointment");
         }
     }
 }

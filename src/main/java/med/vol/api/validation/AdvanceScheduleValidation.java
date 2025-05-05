@@ -1,6 +1,6 @@
 package med.vol.api.validation;
 
-import jakarta.validation.ValidationException;
+import med.vol.api.config.errorHandling.AppointmentValidationEx;
 import med.vol.api.dto.BookAppointmentsDTO;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +17,7 @@ public class AdvanceScheduleValidation implements BookAppointmentValidator {
         var difference = Duration.between(now, bookTime).toMinutes();
         System.out.println("Diferenca: " + difference);
         if (difference < 30) {
-            throw new ValidationException("Appointments must be scheduled within at least 30 minutes");
+            throw new AppointmentValidationEx("Appointments must be scheduled within at least 30 minutes");
         }
 
     }

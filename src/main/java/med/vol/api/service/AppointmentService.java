@@ -1,7 +1,6 @@
 package med.vol.api.service;
 
-import jakarta.validation.ValidationException;
-import med.vol.api.config.errorHandling.VallidationException;
+import med.vol.api.config.errorHandling.AppointmentValidationEx;
 import med.vol.api.dto.AppointmentsDetailsDTO;
 import med.vol.api.dto.BookAppointmentsDTO;
 import med.vol.api.model.Appointment;
@@ -34,11 +33,11 @@ public class AppointmentService {
 
         public AppointmentsDetailsDTO bookAppointment(BookAppointmentsDTO appointmentDetails) {
             if(!patientRepository.existsById(appointmentDetails.patientID())){
-                throw new VallidationException("Patient ID invalid");
+                throw new AppointmentValidationEx("Patient ID invalid");
             }
 
             if(appointmentDetails.doctorID() != null && !doctorRepository.existsById(appointmentDetails.doctorID())) {
-                throw new VallidationException("Doctor ID invalid");
+                throw new AppointmentValidationEx("Doctor ID invalid");
             }
 
             validators.forEach(validator -> validator.validate(appointmentDetails));
@@ -61,7 +60,7 @@ public class AppointmentService {
         }
 
         if(appointmentDetails.specialty() == null) {
-            throw new ValidationException("Specialty is required when doctor is not selected!");
+            throw new jakarta.validation.ValidationException("Specialty is required when doctor is not selected!");
         }
 
         String specialty = appointmentDetails.specialty().name();
