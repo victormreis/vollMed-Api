@@ -3,12 +3,14 @@ package med.vol.api.service;
 import med.vol.api.config.errorHandling.AppointmentValidationEx;
 import med.vol.api.dto.AppointmentsDetailsDTO;
 import med.vol.api.dto.BookAppointmentsDTO;
+import med.vol.api.dto.CancelAppointmentDTO;
 import med.vol.api.model.Appointment;
 import med.vol.api.model.Doctor;
 import med.vol.api.repository.AppointmentRepository;
 import med.vol.api.repository.DoctorRepository;
 import med.vol.api.repository.PatientRepository;
 import med.vol.api.validation.BookAppointmentValidator;
+import med.vol.api.validation.cancelAppointments.CancelAppointmentValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +31,9 @@ public class AppointmentService {
 
     @Autowired
     private List<BookAppointmentValidator> validators;
+
+    @Autowired
+    private List<CancelAppointmentValidator> validator;
 
 
         public AppointmentsDetailsDTO bookAppointment(BookAppointmentsDTO appointmentDetails) {
@@ -66,5 +71,21 @@ public class AppointmentService {
         String specialty = appointmentDetails.specialty().name();
 
         return doctorRepository.getRandomDoctor(specialty, appointmentDetails.dateAndTime());
+    }
+
+    public void cancelAppointment(CancelAppointmentDTO data) {
+
+        if (!appointmentRepository.existsById(data.appointment().id())) {
+            throw new AppointmentValidationEx("Appointment ID Invalid");
+        }
+
+        validator.forEach(validator -> validator.validate(data));
+
+
+        var appointment = appointmentRepository.getReferenceById(data.appointment().id());
+
+
+        appointmentRepository.deleteById(appointment.getId());
+
     }
 }
