@@ -27,7 +27,6 @@ public class PatientController {
     @PostMapping
     @Transactional
     public ResponseEntity registerPatient(@Valid @RequestBody PatientDTO patient, UriComponentsBuilder uriBuilder) {
-        System.out.println(patient);
         var patientToRegister = new Patient(patient);
         patientService.register(patientToRegister);
         var uri = uriBuilder.path("/patients/{id}").buildAndExpand(patientToRegister.getId()).toUri();

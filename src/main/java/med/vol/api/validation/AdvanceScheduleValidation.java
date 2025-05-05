@@ -15,7 +15,6 @@ public class AdvanceScheduleValidation implements BookAppointmentValidator {
         var bookTime = data.dateAndTime();
         var now = LocalDateTime.now();
         var difference = Duration.between(now, bookTime).toMinutes();
-        System.out.println("Diferenca: " + difference);
         if (difference < 30) {
             throw new AppointmentValidationEx("Appointments must be scheduled within at least 30 minutes");
         }
