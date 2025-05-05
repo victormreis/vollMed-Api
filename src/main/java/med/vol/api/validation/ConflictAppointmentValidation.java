@@ -18,7 +18,7 @@ public class ConflictAppointmentValidation implements BookAppointmentValidator {
 
         System.out.println("Agendamento do doutor" + isDoctorAvailableForThisTime);
 
-        if(isDoctorAvailableForThisTime) {
+        if(!isDoctorAvailableForThisTime) {
             throw new AppointmentValidationEx("Doctor Unavailable for this date and time!");
         }
     }
