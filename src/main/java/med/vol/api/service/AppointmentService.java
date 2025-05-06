@@ -42,16 +42,21 @@ public class AppointmentService {
             }
 
             if(appointmentDetails.doctorID() != null && !doctorRepository.existsById(appointmentDetails.doctorID())) {
-                throw new AppointmentValidationEx("Doctor ID invalid");
-            }
-
-            validators.forEach(validator -> validator.validate(appointmentDetails));
-
+                throw new AppointmentValidationEx("Doctor ID invalid");       }
 
             var patient = patientRepository.getReferenceById(appointmentDetails.patientID());
             var doctor = chooseDoctor(appointmentDetails);
 
+            validators.forEach(validator -> validator.validate(appointmentDetails));
+
+            if(doctor == null) {
+                throw new AppointmentValidationEx("No doctor with this specialty available for this date and time ");
+            }
+
+
             var appointment = new Appointment(null,doctor, patient, appointmentDetails.dateAndTime());
+
+
 
 
             appointmentRepository.save(appointment);
