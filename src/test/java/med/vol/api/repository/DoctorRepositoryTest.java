@@ -54,6 +54,20 @@ class DoctorRepositoryTest {
     }
 
 
+    @Test
+    @DisplayName("Should return a doctor when doctor registered is available for the date")
+    void shouldReturnDoctorIfDoctorIsRegisteredAndAvailable() {
+
+        var nextMonday10Am = LocalDate.now()
+                .with(TemporalAdjusters.next(DayOfWeek.MONDAY))
+                .atTime(10, 0);
+
+        var doctor = registerDoctor("Doctor", "doctor@voll.ca", "1234556", Specialty.ORTHOPEDICS);
+
+
+        var doctorAvailable = doctorRepository.getRandomDoctor(Specialty.ORTHOPEDICS.name(), nextMonday10Am);
+        assertThat(doctorAvailable).isEqualTo(doctor);
+    }
 
 
 
