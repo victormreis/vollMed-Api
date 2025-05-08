@@ -37,7 +37,7 @@ class DoctorRepositoryTest {
     private TestEntityManager testEntityManager;
 
     @Test
-    @DisplayName("Should return null when unique doctor registered is not available for the date")
+    @DisplayName("Should return null when the only registered doctor is not available on the given date")
     void shouldReturnNullWhenOnlyDoctorIsUnavailableOnDate() {
 
         var nextMonday10Am = LocalDate.now()
@@ -55,7 +55,7 @@ class DoctorRepositoryTest {
 
 
     @Test
-    @DisplayName("Should return a doctor when doctor registered is available for the date")
+    @DisplayName("Should return a doctor when registered doctor is available on the given date")
     void shouldReturnDoctorIfDoctorIsRegisteredAndAvailable() {
 
         var nextMonday10Am = LocalDate.now()
